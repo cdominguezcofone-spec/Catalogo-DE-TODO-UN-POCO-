@@ -21,8 +21,6 @@ header {
  padding:30px;
 }
 
-h1 {margin:0;}
-
 .container {
  padding:20px;
  max-width:1200px;
@@ -73,11 +71,6 @@ h1 {margin:0;}
  border-radius:15px;
  box-shadow:0 4px 10px rgba(0,0,0,0.1);
  text-align:center;
- transition:0.3s;
-}
-
-.card:hover {
- transform:scale(1.05);
 }
 
 .card img {
@@ -130,6 +123,7 @@ let productos = [];
 Papa.parse(url, {
  download: true,
  header: true,
+ skipEmptyLines: true,
  complete: function(results) {
 
    productos = results.data.filter(p => p.Nombre);
