@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+
+
+ <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -123,8 +125,11 @@ let productos = [];
 Papa.parse(url, {
  download: true,
  header: true,
+ delimiter: ";", // 👈 SOLUCIÓN CLAVE
  skipEmptyLines: true,
  complete: function(results) {
+
+   console.log(results.data);
 
    productos = results.data.filter(p => p.Nombre);
 
@@ -140,7 +145,7 @@ function mostrarProductos(lista) {
  lista.forEach(p => {
    catalogo.innerHTML += `
    <div class="card">
-     <img src="${p.Imagen || 'https://via.placeholder.com/200'}">
+     <img src="${p.Imagen || 'https://via.placeholder.com/300'}">
      <h3>${p.Nombre}</h3>
      <p>${p.Precio}</p>
      <a href="${p.WhatsApp}" target="_blank">
