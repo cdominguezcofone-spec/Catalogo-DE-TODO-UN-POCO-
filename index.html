@@ -5,72 +5,61 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>De Todo Un Poco</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
 <style>
-body {font-family:Poppins;margin:0;background:#f5f5f5;}
-header {background:#ff7a00;color:white;text-align:center;padding:30px;}
-.container {padding:20px;max-width:1200px;margin:auto;}
-.grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
-.card {background:white;padding:15px;border-radius:15px;box-shadow:0 4px 10px rgba(0,0,0,0.1);text-align:center;}
-.card img {width:100%;height:200px;object-fit:cover;border-radius:10px;}
-.btn {background:#25D366;color:white;padding:10px;border:none;border-radius:10px;width:100%;cursor:pointer;}
+body {font-family: Arial; margin:0; background:#f5f5f5;}
+header {background:#ff7a00; color:white; text-align:center; padding:20px;}
+.container {padding:20px;}
+.grid {display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:20px;}
+.card {background:white; padding:15px; border-radius:10px; text-align:center;}
+.card img {width:100%; height:200px; object-fit:cover;}
+.btn {background:#25D366; color:white; padding:10px; border:none; border-radius:5px;}
 </style>
-</head>
 
+</head>
 <body>
 
 <header>
 <h1>De Todo Un Poco</h1>
-<p>Catálogo de productos</p>
+<p>Catálogo</p>
 </header>
 
 <div class="container">
 <div class="grid" id="catalogo"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
 <script>
 
-const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSYFL6PZVNPKR0cIvM_rdBBFv9lzARFUx3auKhbnTqKe5iooMhgwmUEziLAsyBWWgoydXprwM3qRpUT/pub?output=csv";
+const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSYFL6PZVNPKR0cIvM_rdBBFv9lzARFUx3auKhbnTqKe5iooMhgwmUEziLAsyBWWgoydXprwM3qRpUT/gviz/tq?tqx=out:json";
 
-Papa.parse(url, {
- download: true,
- header: true,
- skipEmptyLines: true,
- dynamicTyping: true, // mejora lectura
- complete: function(results) {
+fetch(url)
+.then(res => res.text())
+.then(data => {
 
-   const data = results.data;
+ const json = JSON.parse(data.substring(47).slice(0, -2));
+ const rows = json.table.rows;
 
-   console.log(data); // para ver si carga
+ const catalogo = document.getElementById("catalogo");
 
-   const catalogo = document.getElementById("catalogo");
+ rows.forEach(r => {
 
-   data.forEach(p => {
+   const nombre = r.c[0]?.v;
+   const precio = r.c[1]?.v;
+   const imagen = r.c[2]?.v;
+   const whatsapp = r.c[3]?.v;
 
-     // detecta nombres aunque estén mal escritos
-     const nombre = p.Nombre || p.nombre;
-     const precio = p.Precio || p.precio;
-     const imagen = p.Imagen || p.imagen || "https://via.placeholder.com/300";
-     const whatsapp = p.WhatsApp || p.whatsapp || "#";
+   // 🔥 ESTO ASEGURA QUE ALGO SE MUESTRE SIEMPRE
+   catalogo.innerHTML += `
+   <div class="card">
+     <img src="${imagen || 'https://via.placeholder.com/300'}">
+     <h3>${nombre || 'Producto sin nombre'}</h3>
+     <p>${precio || ''}</p>
+     <a href="${whatsapp || '#'}" target="_blank">
+       <button class="btn">Consultar</button>
+     </a>
+   </div>`;
 
-     if(nombre){
-       catalogo.innerHTML += `
-       <div class="card">
-         <img src="${imagen}">
-         <h3>${nombre}</h3>
-         <p>${precio}</p>
-         <a href="${whatsapp}" target="_blank">
-           <button class="btn">Consultar</button>
-         </a>
-       </div>`;
-     }
+ });
 
-   });
-
- }
 });
 
 </script>
