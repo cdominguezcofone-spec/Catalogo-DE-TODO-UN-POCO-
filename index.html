@@ -2,29 +2,58 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Catálogo</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De Todo Un Poco</title>
 
 <style>
-body{font-family:Arial;margin:0;background:#f5f5f5}
-header{background:#ff7a00;color:white;text-align:center;padding:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:20px}
-.card{background:white;padding:15px;border-radius:10px;text-align:center}
-.card img{width:100%;height:200px;object-fit:cover}
-.btn{background:#25D366;color:white;padding:10px;border:none;border-radius:5px}
+body {font-family: Arial; margin:0; background:#f5f5f5;}
+header {background:#ff7a00; color:white; text-align:center; padding:20px;}
+.container {padding:20px;}
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap:20px;
+}
+.card {
+  background:white;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
+  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+.card img {
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:8px;
+}
+.btn {
+  background:#25D366;
+  color:white;
+  padding:10px;
+  border:none;
+  border-radius:5px;
+  margin-top:10px;
+  cursor:pointer;
+  width:100%;
+}
 </style>
-</head>
 
+</head>
 <body>
 
 <header>
 <h1>De Todo Un Poco</h1>
+<p>Catálogo de productos</p>
 </header>
 
+<div class="container">
 <div class="grid" id="catalogo"></div>
+</div>
 
 <script>
 
+// 🔥 TU PLANILLA
 const sheetID = "1YutuIhavNR7nXoREl3mJtS7IRRpvIgWWlMQnD1aRW0o";
 const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:json`;
 
@@ -32,7 +61,7 @@ fetch(url)
 .then(res => res.text())
 .then(data => {
 
- const json = JSON.parse(data.substr(47).slice(0, -2));
+ const json = JSON.parse(data.substring(47).slice(0, -2));
  const rows = json.table.rows;
 
  const catalogo = document.getElementById("catalogo");
@@ -44,10 +73,23 @@ fetch(url)
 
  rows.forEach(r => {
 
-   const nombre = r.c[0]?.v || "Producto";
-   const precio = r.c[1]?.v || "";
-   const imagen = r.c[2]?.v || "https://via.placeholder.com/300";
-   const whatsapp = r.c[3]?.v || "#";
+   let nombre = r.c[0]?.v || "Producto";
+   let precio = r.c[1]?.v || "";
+   let imagen = r.c[2]?.v || "";
+   let whatsapp = r.c[3]?.v || "#";
+
+   // 🔥 CONVERTIR AUTOMÁTICO DRIVE → LINK DIRECTO
+   if(imagen.includes("drive.google.com")){
+     const id = imagen.split("/d/")[1]?.split("/")[0];
+     if(id){
+       imagen = `https://drive.google.com/uc?export=view&id=${id}`;
+     }
+   }
+
+   // Imagen por defecto si falla
+   if(!imagen){
+     imagen = "https://via.placeholder.com/300";
+   }
 
    catalogo.innerHTML += `
    <div class="card">
@@ -63,7 +105,7 @@ fetch(url)
 
 })
 .catch(error => {
- document.getElementById("catalogo").innerHTML = "Error cargando datos";
+ document.getElementById("catalogo").innerHTML = "Error cargando productos";
  console.error(error);
 });
 
