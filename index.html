@@ -5,48 +5,103 @@
 <title>Catálogo</title>
 
 <style>
-body{font-family:Arial;background:#f5f5f5;margin:0}
-header{background:#ff7a00;color:white;text-align:center;padding:20px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:20px}
-.card{background:white;padding:15px;border-radius:10px;text-align:center}
-.card img{width:100%;height:200px;object-fit:cover}
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+}
+
+header {
+  background: #ff6600;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+  padding: 20px;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.precio {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.btn {
+  display: block;
+  margin-top: 10px;
+  padding: 10px;
+  background: #25D366;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>De Todo Un Poco</h1>
+  <h1>Catálogo de Productos</h1>
 </header>
 
-<div class="grid" id="catalogo"></div>
+<div id="productos" class="grid"></div>
 
 <script>
+const URL = "https://opensheet.elk.sh/1YutuIhavNR7nXoREl3mJtS7IRRpvIgWWlMQnD1aRW0o/Hoja1";
 
-const productos = [
- {
-   nombre: "Taza de vidrio",
-   precio: "$5000",
-   imagen: "https://raw.githubusercontent.com/cdominguezcofone-spec/Catalogo-DE-TODO-UN-POCO-/main/Taza%20Cafe%20vidrio.jpg"
- },
- {
-   nombre: "Balanza digital",
-   precio: "$8000",
-   imagen: "https://raw.githubusercontent.com/cdominguezcofone-spec/Catalogo-DE-TODO-UN-POCO-/main/Balanza%20digital.jpg"
- }
-];
+// 🔴 CAMBIAR POR TU NÚMERO
+const WHATSAPP = "549XXXXXXXXXX";
 
-const catalogo = document.getElementById("catalogo");
+const contenedor = document.getElementById("productos");
 
-productos.forEach(p => {
- catalogo.innerHTML += `
- <div class="card">
-   <img src="${p.imagen}">
-   <h3>${p.nombre}</h3>
-   <p>${p.precio}</p>
- </div>`;
-});
+fetch(URL)
+  .then(res => res.json())
+  .then(data => {
 
+    data.forEach(p => {
+
+      const mensaje = "Hola! Quiero consultar por " + p.nombre;
+      const link = "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(mensaje);
+
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <img src="${p.imagen}">
+        <h3>${p.nombre}</h3>
+        <p class="precio">$${p.precio}</p>
+        <a class="btn" href="${link}" target="_blank">
+          Consultar por WhatsApp
+        </a>
+      `;
+
+      contenedor.appendChild(card);
+    });
+
+  })
+  .catch(() => {
+    contenedor.innerHTML = "<p>Error cargando productos</p>";
+  });
 </script>
 
 </body>
