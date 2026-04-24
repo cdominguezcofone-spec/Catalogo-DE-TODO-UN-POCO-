@@ -1,31 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Catálogo</title>
+
+<style>
+body{font-family:Arial;background:#f5f5f5;margin:0}
+header{background:#ff7a00;color:white;text-align:center;padding:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;padding:20px}
+.card{background:white;padding:15px;border-radius:10px;text-align:center}
+.card img{width:100%;height:200px;object-fit:cover}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>De Todo Un Poco</h1>
+</header>
+
+<div class="grid" id="catalogo"></div>
+
 <script>
 
-const url = "PEGÁ_ACÁ_TU_LINK_CSV";
+const productos = [
+ {
+   nombre: "Taza de vidrio",
+   precio: "$5000",
+   imagen: "https://raw.githubusercontent.com/cdominguezcofone-spec/Catalogo-DE-TODO-UN-POCO-/main/Taza%20Cafe%20vidrio.jpg"
+ },
+ {
+   nombre: "Balanza digital",
+   precio: "$8000",
+   imagen: "https://raw.githubusercontent.com/cdominguezcofone-spec/Catalogo-DE-TODO-UN-POCO-/main/Balanza%20digital.jpg"
+ }
+];
 
-fetch(url)
-.then(res => res.text())
-.then(data => {
+const catalogo = document.getElementById("catalogo");
 
- const filas = data.split("\n").slice(1);
- const catalogo = document.getElementById("catalogo");
-
- filas.forEach(f => {
-
-   const col = f.split(",");
-
-   if(col.length > 1){
-
-     catalogo.innerHTML += `
-     <div class="card">
-       <img src="${col[2] || 'https://via.placeholder.com/300'}">
-       <h3>${col[0]}</h3>
-       <p>${col[1]}</p>
-     </div>`;
-
-   }
-
- });
-
+productos.forEach(p => {
+ catalogo.innerHTML += `
+ <div class="card">
+   <img src="${p.imagen}">
+   <h3>${p.nombre}</h3>
+   <p>${p.precio}</p>
+ </div>`;
 });
 
 </script>
+
+</body>
+</html>
