@@ -2,145 +2,81 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Catálogo con Buscador</title>
+<title>Catálogo</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-}
-
-header {
-  background: #ff6600;
-  color: white;
-  padding: 15px;
-  text-align: center;
-}
-
-.buscador {
-  padding: 15px;
-  text-align: center;
-}
-
-.buscador input {
-  width: 80%;
-  max-width: 400px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 15px;
-  padding: 20px;
-}
-
-.card {
-  background: white;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.precio {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.categoria {
-  font-size: 14px;
-  color: gray;
-}
-
-.btn {
-  display: block;
-  margin-top: 10px;
-  padding: 10px;
-  background: #25D366;
-  color: white;
-  text-decoration: none;
-  border-radius: 5px;
-  font-weight: bold;
-}
+body { margin:0; font-family:Arial; background:#f5f5f5; }
+header { background:#ff6600; color:white; padding:15px; text-align:center; }
+.buscador { padding:15px; text-align:center; }
+.buscador input { width:80%; max-width:400px; padding:10px; border-radius:8px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; padding:20px; }
+.card { background:white; border-radius:10px; padding:10px; text-align:center; }
+.card img { width:100%; height:200px; object-fit:cover; border-radius:10px; }
+.btn { display:block; margin-top:10px; padding:10px; background:#25D366; color:white; text-decoration:none; border-radius:5px; }
 </style>
 </head>
 
 <body>
 
-<header>
-  <h1>Catálogo de Productos</h1>
-</header>
+<header><h1>Catálogo</h1></header>
 
 <div class="buscador">
-  <input type="text" id="busqueda" placeholder="Buscar producto o categoría...">
+<input type="text" id="busqueda" placeholder="Buscar producto...">
 </div>
 
 <div id="productos" class="grid"></div>
 
 <script>
-const URL = "https://opensheet.elk.sh/1YutuIhavNR7nXoREl3mJtS7IRRpvIgWWlMQnD1aRW0o/Hoja1";
-
-const contenedor = document.getElementById("productos");
-const inputBusqueda = document.getElementById("busqueda");
+const URL = "https://opensheet.elk.sh/1YutuIhavNR7nXoREl3mJtS7IRRpvIgWWlMQnD1aRW0o/Hoja%201";
 
 let productos = [];
+const contenedor = document.getElementById("productos");
+const input = document.getElementById("busqueda");
 
-function mostrarProductos(lista) {
+function limpiarPrecio(precio){
+  return precio.replace(/[^0-9]/g, "");
+}
+
+function mostrar(lista){
   contenedor.innerHTML = "";
 
-  if (lista.length === 0) {
-    contenedor.innerHTML = "<p>No se encontraron productos</p>";
-    return;
-  }
-
   lista.forEach(p => {
+
+    // 👇 VALIDACIONES IMPORTANTES
+    if(!p.IMAGEN || !p.NOMBRE) return;
 
     const card = document.createElement("div");
     card.className = "card";
 
     card.innerHTML = `
-      <img src="${p.IMAGEN}">
+      <img src="${p.IMAGEN}" onerror="this.src='https://via.placeholder.com/200'">
       <h3>${p.NOMBRE}</h3>
-      <p class="precio">$${p.PRECIO}</p>
-      <p class="categoria">${p.CATEGORIA}</p>
-      <a class="btn" href="${p.WHATSAPP}" target="_blank">
-        Consultar por WhatsApp
-      </a>
+      <p>$${limpiarPrecio(p.PRECIO)}</p>
+      <p>${p.CATEGORIA}</p>
+      <a class="btn" href="${p.WHATSAPP}" target="_blank">Consultar</a>
     `;
 
     contenedor.appendChild(card);
   });
 }
 
-// Cargar datos
 fetch(URL)
-  .then(res => res.json())
+  .then(r => r.json())
   .then(data => {
+    console.log(data); // 👈 para debug
     productos = data;
-    mostrarProductos(productos);
+    mostrar(productos);
   });
 
-// Buscador
-inputBusqueda.addEventListener("input", () => {
-  const texto = inputBusqueda.value.toLowerCase();
+input.addEventListener("input", () => {
+  const t = input.value.toLowerCase();
 
   const filtrados = productos.filter(p =>
-    (p.NOMBRE && p.NOMBRE.toLowerCase().includes(texto)) ||
-    (p.CATEGORIA && p.CATEGORIA.toLowerCase().includes(texto))
+    (p.NOMBRE && p.NOMBRE.toLowerCase().includes(t)) ||
+    (p.CATEGORIA && p.CATEGORIA.toLowerCase().includes(t))
   );
 
-  mostrarProductos(filtrados);
+  mostrar(filtrados);
 });
 </script>
 
