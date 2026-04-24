@@ -110,11 +110,11 @@ function mostrarProductos(lista) {
     card.className = "card";
 
     card.innerHTML = `
-      <img src="${p.imagen}">
-      <h3>${p.nombre}</h3>
-      <p class="precio">$${p.precio}</p>
-      <p class="categoria">${p.categoria}</p>
-      <a class="btn" href="${p.whatsapp}" target="_blank">
+      <img src="${p.IMAGEN}">
+      <h3>${p.NOMBRE}</h3>
+      <p class="precio">$${p.PRECIO}</p>
+      <p class="categoria">${p.CATEGORIA}</p>
+      <a class="btn" href="${p.WHATSAPP}" target="_blank">
         Consultar por WhatsApp
       </a>
     `;
@@ -131,13 +131,13 @@ fetch(URL)
     mostrarProductos(productos);
   });
 
-// Buscador (por nombre y categoría)
+// Buscador
 inputBusqueda.addEventListener("input", () => {
   const texto = inputBusqueda.value.toLowerCase();
 
   const filtrados = productos.filter(p =>
-    (p.nombre && p.nombre.toLowerCase().includes(texto)) ||
-    (p.categoria && p.categoria.toLowerCase().includes(texto))
+    (p.NOMBRE && p.NOMBRE.toLowerCase().includes(texto)) ||
+    (p.CATEGORIA && p.CATEGORIA.toLowerCase().includes(texto))
   );
 
   mostrarProductos(filtrados);
