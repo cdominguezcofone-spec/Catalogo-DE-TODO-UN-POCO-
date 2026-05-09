@@ -5,79 +5,253 @@
 <title>Catálogo</title>
 
 <style>
-body { margin:0; font-family:Arial; background:#f5f5f5; }
-header { background:#ff6600; color:white; padding:15px; text-align:center; }
-.buscador { padding:15px; text-align:center; }
-.buscador input { width:80%; max-width:400px; padding:10px; border-radius:8px; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; padding:20px; }
-.card { background:white; border-radius:10px; padding:10px; text-align:center; }
-.card img { width:100%; height:200px; object-fit:cover; border-radius:10px; }
-.btn { display:block; margin-top:10px; padding:10px; background:#25D366; color:white; text-decoration:none; border-radius:5px; }
+
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f5f5f5;
+}
+
+header{
+  background:#ff6600;
+  color:white;
+  padding:15px;
+  text-align:center;
+}
+
+.buscador{
+  padding:15px;
+  text-align:center;
+}
+
+.buscador input{
+  width:80%;
+  max-width:400px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  padding:20px;
+}
+
+.card{
+  background:white;
+  border-radius:10px;
+  padding:10px;
+  text-align:center;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:10px;
+}
+
+.btn{
+  display:block;
+  margin-top:10px;
+  padding:10px;
+  background:#25D366;
+  color:white;
+  text-decoration:none;
+  border-radius:5px;
+  border:none;
+  cursor:pointer;
+}
+
+.btn-carrito{
+  background:#ff6600;
+}
+
+#carrito{
+  background:white;
+  margin:20px;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+#listaCarrito li{
+  margin-bottom:8px;
+}
+
 </style>
 </head>
 
 <body>
 
-<header><h1>Catálogo</h1></header>
+<header>
+  <h1>Catálogo</h1>
+</header>
 
 <div class="buscador">
-<input type="text" id="busqueda" placeholder="Buscar producto...">
+  <input type="text" id="busqueda" placeholder="Buscar producto...">
 </div>
 
 <div id="productos" class="grid"></div>
 
+<div id="carrito">
+
+  <h2>🛒 Carrito</h2>
+
+  <ul id="listaCarrito"></ul>
+
+  <h3>Total: $<span id="total">0</span></h3>
+
+  <p>
+    Alias para transferir:
+    <strong id="alias">cata.cofone.mp</strong>
+  </p>
+
+  <button onclick="copiarAlias()" class="btn">
+    Copiar Alias
+  </button>
+
+</div>
+
 <script>
-const URL = "https://opensheet.elk.sh/1YutuIhavNR7nXoREl3mJtS7IRRpvIgWWlMQnD1aRW0o/Hoja%201";
+
+const URL =
+"https://opensheet.elk.sh/1YutuIhavNR7nXoREl3mJtS7IRRpvIgWWlMQnD1aRW0o/Hoja%201";
 
 let productos = [];
-const contenedor = document.getElementById("productos");
-const input = document.getElementById("busqueda");
+
+let total = 0;
+
+const contenedor =
+document.getElementById("productos");
+
+const input =
+document.getElementById("busqueda");
 
 function limpiarPrecio(precio){
+
+  if(!precio) return "0";
+
   return precio.replace(/[^0-9]/g, "");
 }
 
+function agregarAlCarrito(nombre, precio){
+
+  const lista =
+  document.getElementById("listaCarrito");
+
+  const item =
+  document.createElement("li");
+
+  item.textContent =
+  `${nombre} - $${precio}`;
+
+  lista.appendChild(item);
+
+  total += Number(precio);
+
+  document.getElementById("total").textContent =
+  total;
+}
+
+function copiarAlias(){
+
+  const texto =
+  document.getElementById("alias").textContent;
+
+  navigator.clipboard.writeText(texto);
+
+  alert("Alias copiado");
+}
+
 function mostrar(lista){
+
   contenedor.innerHTML = "";
 
   lista.forEach(p => {
 
-    // 👇 VALIDACIONES IMPORTANTES
     if(!p.IMAGEN || !p.NOMBRE) return;
 
-    const card = document.createElement("div");
+    const precioLimpio =
+    limpiarPrecio(p.PRECIO);
+
+    const card =
+    document.createElement("div");
+
     card.className = "card";
 
     card.innerHTML = `
-      <img src="${p.IMAGEN}" onerror="this.src='https://via.placeholder.com/200'">
+      <img src="${p.IMAGEN}"
+      onerror="this.src='https://via.placeholder.com/200'">
+
       <h3>${p.NOMBRE}</h3>
-      <p>$${limpiarPrecio(p.PRECIO)}</p>
-      <p>${p.CATEGORIA}</p>
-      <a class="btn" href="${p.WHATSAPP}" target="_blank">Consultar</a>
+
+      <p>$${precioLimpio}</p>
+
+      <p>${p.CATEGORIA || ""}</p>
+
+      <button
+      class="btn btn-carrito"
+      onclick="agregarAlCarrito('${p.NOMBRE}', '${precioLimpio}')">
+
+      Agregar al carrito
+
+      </button>
+
+      <a
+      class="btn"
+      href="${p.WHATSAPP}"
+      target="_blank">
+
+      Consultar
+
+      </a>
     `;
 
     contenedor.appendChild(card);
+
   });
 }
 
 fetch(URL)
-  .then(r => r.json())
-  .then(data => {
-    console.log(data); // 👈 para debug
-    productos = data;
-    mostrar(productos);
-  });
+
+.then(r => r.json())
+
+.then(data => {
+
+  console.log(data);
+
+  productos = data;
+
+  mostrar(productos);
+
+});
 
 input.addEventListener("input", () => {
-  const t = input.value.toLowerCase();
 
-  const filtrados = productos.filter(p =>
-    (p.NOMBRE && p.NOMBRE.toLowerCase().includes(t)) ||
-    (p.CATEGORIA && p.CATEGORIA.toLowerCase().includes(t))
+  const t =
+  input.value.toLowerCase();
+
+  const filtrados =
+  productos.filter(p =>
+
+    (p.NOMBRE &&
+    p.NOMBRE.toLowerCase().includes(t))
+
+    ||
+
+    (p.CATEGORIA &&
+    p.CATEGORIA.toLowerCase().includes(t))
+
   );
 
   mostrar(filtrados);
+
 });
+
 </script>
 
 </body>
