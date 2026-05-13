@@ -1,35 +1,47 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="UTF-8">
-<title>Catálogo</title>
-
 <style>
+
+/* FONDO GENERAL */
 
 body{
   margin:0;
   font-family:Arial;
-  background:#f5f5f5;
+  background:#eaf6ff;
 }
 
+/* HEADER */
+
 header{
-  background:#ff6600;
+  background:linear-gradient(135deg,#4facfe,#00c6fb);
   color:white;
-  padding:15px;
+  padding:25px;
   text-align:center;
+  box-shadow:0 3px 10px rgba(0,0,0,0.15);
 }
+
+header h1{
+  margin:0;
+  font-size:35px;
+}
+
+/* BOTÓN INSTAGRAM */
 
 .instagram-btn{
   display:inline-flex;
   align-items:center;
   gap:10px;
   background:white;
-  color:#E1306C;
-  padding:10px 15px;
-  border-radius:10px;
+  color:#0984e3;
+  padding:12px 18px;
+  border-radius:15px;
   text-decoration:none;
   font-weight:bold;
-  margin-top:10px;
+  margin-top:15px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.15);
+  transition:0.3s;
+}
+
+.instagram-btn:hover{
+  transform:scale(1.05);
 }
 
 .instagram-btn img{
@@ -37,372 +49,149 @@ header{
   height:25px;
 }
 
+/* BUSCADOR */
+
 .buscador{
-  padding:15px;
+  padding:20px;
   text-align:center;
 }
 
 .buscador input{
   width:80%;
   max-width:400px;
-  padding:10px;
-  border-radius:8px;
-  border:1px solid #ccc;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #bde0fe;
+  font-size:16px;
+  outline:none;
 }
+
+/* PRODUCTOS */
 
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:15px;
+  gap:20px;
   padding:20px;
 }
 
 .card{
   background:white;
-  border-radius:10px;
-  padding:10px;
+  border-radius:18px;
+  padding:15px;
   text-align:center;
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
 }
 
 .card img{
   width:100%;
-  height:200px;
+  height:220px;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:15px;
 }
+
+.card h3{
+  margin-top:12px;
+  color:#0984e3;
+}
+
+.card p{
+  margin:6px 0;
+}
+
+/* BOTONES */
 
 .btn{
   display:block;
   margin-top:10px;
-  padding:10px;
-  background:#25D366;
+  padding:12px;
+  background:#00b894;
   color:white;
   text-decoration:none;
-  border-radius:5px;
+  border-radius:10px;
   border:none;
   cursor:pointer;
   width:100%;
+  font-weight:bold;
+  transition:0.3s;
 }
 
 .btn:hover{
   opacity:0.9;
+  transform:scale(1.02);
 }
 
 .btn-carrito{
-  background:#ff6600;
+  background:#0984e3;
 }
 
 .btn-eliminar{
-  background:#ff0000;
-  padding:5px 10px;
+  background:#d63031;
+  padding:6px 12px;
   margin-left:10px;
   width:auto;
   display:inline-block;
+  border-radius:8px;
 }
+
+/* CARRITO */
 
 #carrito{
   background:white;
   margin:20px;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+  padding:25px;
+  border-radius:18px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+#carrito h2{
+  color:#0984e3;
 }
 
 #listaCarrito li{
-  margin-bottom:10px;
+  margin-bottom:12px;
 }
 
+/* DATOS DE PAGO */
+
 .datos-pago{
-  background:#f9f9f9;
-  padding:15px;
-  border-radius:10px;
+  background:#f0f9ff;
+  padding:18px;
+  border-radius:15px;
   margin-top:20px;
-  border:1px solid #ddd;
+  border:1px solid #bde0fe;
+}
+
+.datos-pago h3{
+  color:#0984e3;
 }
 
 .datos-pago p{
-  margin:8px 0;
+  margin:10px 0;
 }
+
+/* WHATSAPP */
 
 .whatsapp{
   background:#25D366;
   color:white;
   text-align:center;
-  padding:12px;
-  border-radius:8px;
+  padding:14px;
+  border-radius:10px;
   text-decoration:none;
   display:block;
   margin-top:15px;
   font-weight:bold;
+  transition:0.3s;
+}
+
+.whatsapp:hover{
+  transform:scale(1.02);
 }
 
 </style>
-</head>
-
-<body>
-
-<header>
-
-  <h1>Catálogo</h1>
-
-  <a
-    href="https://www.instagram.com/detodo.unpoco.arg?igsh=dThreW9jdmF6OXk0"
-    target="_blank"
-    class="instagram-btn">
-
-    <img
-      src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
-      alt="Instagram">
-
-    Seguinos en Instagram
-
-  </a>
-
-</header>
-
-<div class="buscador">
-  <input type="text" id="busqueda" placeholder="Buscar producto...">
-</div>
-
-<div id="productos" class="grid"></div>
-
-<div id="carrito">
-
-  <h2>🛒 Carrito</h2>
-
-  <ul id="listaCarrito"></ul>
-
-  <h3>Total: $<span id="total">0</span></h3>
-
-  <div class="datos-pago">
-
-    <h3>💳 Datos para transferir</h3>
-
-    <p>
-      <strong>Alias:</strong>
-      <span id="alias">cata.cofone.mp</span>
-    </p>
-
-    <p>
-      <strong>CBU:</strong>
-      <span id="cbu">0000003100001373265928</span>
-    </p>
-
-    <p>
-      <strong>Titular:</strong>
-      Catalina Dominguez Cofone
-    </p>
-
-    <p>
-      <strong>Cuenta:</strong>
-      Mercado Pago
-    </p>
-
-    <button onclick="copiarAlias()" class="btn">
-      Copiar Alias
-    </button>
-
-    <button onclick="copiarCBU()" class="btn btn-carrito">
-      Copiar CBU
-    </button>
-
-    <a
-      class="whatsapp"
-      href="https://wa.me/542325460892"
-      target="_blank">
-
-      Enviar comprobante por WhatsApp
-
-    </a>
-
-  </div>
-
-</div>
-
-<script>
-
-const URL =
-"https://opensheet.elk.sh/1YutuIhavNR7nXoREl3mJtS7IRRpvIgWWlMQnD1aRW0o/Hoja%201";
-
-let productos = [];
-
-let carrito = [];
-
-let total = 0;
-
-const contenedor =
-document.getElementById("productos");
-
-const input =
-document.getElementById("busqueda");
-
-function limpiarPrecio(precio){
-
-  if(!precio) return "0";
-
-  return precio.replace(/[^0-9]/g, "");
-}
-
-function actualizarCarrito(){
-
-  const lista =
-  document.getElementById("listaCarrito");
-
-  lista.innerHTML = "";
-
-  total = 0;
-
-  carrito.forEach((producto, index) => {
-
-    total += Number(producto.precio);
-
-    const item =
-    document.createElement("li");
-
-    item.innerHTML = `
-      ${producto.nombre} - $${producto.precio}
-
-      <button
-      class="btn-eliminar"
-      onclick="eliminarDelCarrito(${index})">
-
-      Eliminar
-
-      </button>
-    `;
-
-    lista.appendChild(item);
-
-  });
-
-  document.getElementById("total").textContent =
-  total;
-}
-
-function agregarAlCarrito(nombre, precio){
-
-  carrito.push({
-    nombre:nombre,
-    precio:precio
-  });
-
-  actualizarCarrito();
-}
-
-function eliminarDelCarrito(index){
-
-  carrito.splice(index, 1);
-
-  actualizarCarrito();
-}
-
-function copiarAlias(){
-
-  const texto =
-  document.getElementById("alias").textContent;
-
-  navigator.clipboard.writeText(texto);
-
-  alert("Alias copiado");
-}
-
-function copiarCBU(){
-
-  const texto =
-  document.getElementById("cbu").textContent;
-
-  navigator.clipboard.writeText(texto);
-
-  alert("CBU copiado");
-}
-
-function mostrar(lista){
-
-  contenedor.innerHTML = "";
-
-  lista.forEach(p => {
-
-    if(!p.IMAGEN || !p.NOMBRE) return;
-
-    const precioLimpio =
-    limpiarPrecio(p.PRECIO);
-
-    const card =
-    document.createElement("div");
-
-    card.className = "card";
-
-    card.innerHTML = `
-      <img src="${p.IMAGEN}"
-      onerror="this.src='https://via.placeholder.com/200'">
-
-      <h3>${p.NOMBRE}</h3>
-
-      <p>$${precioLimpio}</p>
-
-      <p>${p.CATEGORIA || ""}</p>
-
-      <button
-      class="btn btn-carrito"
-      onclick="agregarAlCarrito('${p.NOMBRE}', '${precioLimpio}')">
-
-      Agregar al carrito
-
-      </button>
-
-      <a
-      class="btn"
-      href="${p.WHATSAPP}"
-      target="_blank">
-
-      Consultar
-
-      </a>
-    `;
-
-    contenedor.appendChild(card);
-
-  });
-}
-
-fetch(URL)
-
-.then(r => r.json())
-
-.then(data => {
-
-  console.log(data);
-
-  productos = data;
-
-  mostrar(productos);
-
-});
-
-input.addEventListener("input", () => {
-
-  const t =
-  input.value.toLowerCase();
-
-  const filtrados =
-  productos.filter(p =>
-
-    (p.NOMBRE &&
-    p.NOMBRE.toLowerCase().includes(t))
-
-    ||
-
-    (p.CATEGORIA &&
-    p.CATEGORIA.toLowerCase().includes(t))
-
-  );
-
-  mostrar(filtrados);
-
-});
-
-</script>
-
-</body>
-</html>
