@@ -19,6 +19,24 @@ header{
   text-align:center;
 }
 
+.instagram-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:white;
+  color:#E1306C;
+  padding:10px 15px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.instagram-btn img{
+  width:25px;
+  height:25px;
+}
+
 .buscador{
   padding:15px;
   text-align:center;
@@ -64,10 +82,23 @@ header{
   border-radius:5px;
   border:none;
   cursor:pointer;
+  width:100%;
+}
+
+.btn:hover{
+  opacity:0.9;
 }
 
 .btn-carrito{
   background:#ff6600;
+}
+
+.btn-eliminar{
+  background:#ff0000;
+  padding:5px 10px;
+  margin-left:10px;
+  width:auto;
+  display:inline-block;
 }
 
 #carrito{
@@ -79,7 +110,31 @@ header{
 }
 
 #listaCarrito li{
-  margin-bottom:8px;
+  margin-bottom:10px;
+}
+
+.datos-pago{
+  background:#f9f9f9;
+  padding:15px;
+  border-radius:10px;
+  margin-top:20px;
+  border:1px solid #ddd;
+}
+
+.datos-pago p{
+  margin:8px 0;
+}
+
+.whatsapp{
+  background:#25D366;
+  color:white;
+  text-align:center;
+  padding:12px;
+  border-radius:8px;
+  text-decoration:none;
+  display:block;
+  margin-top:15px;
+  font-weight:bold;
 }
 
 </style>
@@ -88,7 +143,22 @@ header{
 <body>
 
 <header>
+
   <h1>Catálogo</h1>
+
+  <a
+    href="https://www.instagram.com/detodo.unpoco.arg?igsh=dThreW9jdmF6OXk0"
+    target="_blank"
+    class="instagram-btn">
+
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+      alt="Instagram">
+
+    Seguinos en Instagram
+
+  </a>
+
 </header>
 
 <div class="buscador">
@@ -105,14 +175,48 @@ header{
 
   <h3>Total: $<span id="total">0</span></h3>
 
-  <p>
-    Alias para transferir:
-    <strong id="alias">cata.cofone.mp</strong>
-  </p>
+  <div class="datos-pago">
 
-  <button onclick="copiarAlias()" class="btn">
-    Copiar Alias
-  </button>
+    <h3>💳 Datos para transferir</h3>
+
+    <p>
+      <strong>Alias:</strong>
+      <span id="alias">cata.cofone.mp</span>
+    </p>
+
+    <p>
+      <strong>CBU:</strong>
+      <span id="cbu">0000003100001373265928</span>
+    </p>
+
+    <p>
+      <strong>Titular:</strong>
+      Catalina Dominguez Cofone
+    </p>
+
+    <p>
+      <strong>Cuenta:</strong>
+      Mercado Pago
+    </p>
+
+    <button onclick="copiarAlias()" class="btn">
+      Copiar Alias
+    </button>
+
+    <button onclick="copiarCBU()" class="btn btn-carrito">
+      Copiar CBU
+    </button>
+
+    <a
+      class="whatsapp"
+      href="https://wa.me/542325460892"
+      target="_blank">
+
+      Enviar comprobante por WhatsApp
+
+    </a>
+
+  </div>
 
 </div>
 
@@ -122,6 +226,8 @@ const URL =
 "https://opensheet.elk.sh/1YutuIhavNR7nXoREl3mJtS7IRRpvIgWWlMQnD1aRW0o/Hoja%201";
 
 let productos = [];
+
+let carrito = [];
 
 let total = 0;
 
@@ -138,23 +244,57 @@ function limpiarPrecio(precio){
   return precio.replace(/[^0-9]/g, "");
 }
 
-function agregarAlCarrito(nombre, precio){
+function actualizarCarrito(){
 
   const lista =
   document.getElementById("listaCarrito");
 
-  const item =
-  document.createElement("li");
+  lista.innerHTML = "";
 
-  item.textContent =
-  `${nombre} - $${precio}`;
+  total = 0;
 
-  lista.appendChild(item);
+  carrito.forEach((producto, index) => {
 
-  total += Number(precio);
+    total += Number(producto.precio);
+
+    const item =
+    document.createElement("li");
+
+    item.innerHTML = `
+      ${producto.nombre} - $${producto.precio}
+
+      <button
+      class="btn-eliminar"
+      onclick="eliminarDelCarrito(${index})">
+
+      Eliminar
+
+      </button>
+    `;
+
+    lista.appendChild(item);
+
+  });
 
   document.getElementById("total").textContent =
   total;
+}
+
+function agregarAlCarrito(nombre, precio){
+
+  carrito.push({
+    nombre:nombre,
+    precio:precio
+  });
+
+  actualizarCarrito();
+}
+
+function eliminarDelCarrito(index){
+
+  carrito.splice(index, 1);
+
+  actualizarCarrito();
 }
 
 function copiarAlias(){
@@ -165,6 +305,16 @@ function copiarAlias(){
   navigator.clipboard.writeText(texto);
 
   alert("Alias copiado");
+}
+
+function copiarCBU(){
+
+  const texto =
+  document.getElementById("cbu").textContent;
+
+  navigator.clipboard.writeText(texto);
+
+  alert("CBU copiado");
 }
 
 function mostrar(lista){
