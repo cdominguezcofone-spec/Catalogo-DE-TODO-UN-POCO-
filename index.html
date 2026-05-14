@@ -2,184 +2,452 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>De Todo Un Poco</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<title>Catálogo</title>
 
 <style>
-body {
- font-family: 'Poppins', sans-serif;
- margin:0;
- background:#f5f5f5;
+
+body{
+  margin:0;
+  font-family:Arial;
+  background:#f5f5f5;
 }
 
-header {
- background:#ff7a00;
- color:white;
- text-align:center;
- padding:30px;
+header{
+  background:#ff6600;
+  color:white;
+  padding:15px;
+  text-align:center;
 }
 
-h1 {margin:0;}
-
-.container {
- padding:20px;
- max-width:1200px;
- margin:auto;
+.instagram-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  background:white;
+  color:#E1306C;
+  padding:10px 15px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:bold;
+  margin-top:10px;
 }
 
-.buscador {
- text-align:center;
- margin-bottom:20px;
+.instagram-btn img{
+  width:25px;
+  height:25px;
 }
 
-.buscador input {
- padding:10px;
- width:80%;
- max-width:400px;
- border-radius:10px;
- border:1px solid #ccc;
+.buscador{
+  padding:15px;
+  text-align:center;
 }
 
-.filtros {
- text-align:center;
- margin-bottom:20px;
+.buscador input{
+  width:80%;
+  max-width:400px;
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #ccc;
 }
 
-.filtros button {
- margin:5px;
- padding:8px 15px;
- border:none;
- border-radius:20px;
- cursor:pointer;
- background:#ddd;
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:15px;
+  padding:20px;
 }
 
-.filtros button:hover {
- background:#ff7a00;
- color:white;
+.card{
+  background:white;
+  border-radius:10px;
+  padding:10px;
+  text-align:center;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-.grid {
- display:grid;
- grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
- gap:20px;
+.card img{
+  width:100%;
+  height:200px;
+  object-fit:cover;
+  border-radius:10px;
 }
 
-.card {
- background:white;
- padding:15px;
- border-radius:15px;
- box-shadow:0 4px 10px rgba(0,0,0,0.1);
- text-align:center;
- transition:0.3s;
+.btn{
+  display:block;
+  margin-top:10px;
+  padding:10px;
+  background:#25D366;
+  color:white;
+  text-decoration:none;
+  border-radius:5px;
+  border:none;
+  cursor:pointer;
+  width:100%;
+  box-sizing:border-box;
 }
 
-.card:hover {
- transform:scale(1.05);
+.btn:hover{
+  opacity:0.9;
 }
 
-.card img {
- width:100%;
- height:200px;
- object-fit:cover;
- border-radius:10px;
+.btn-carrito{
+  background:#ff6600;
 }
 
-.btn {
- background:#25D366;
- color:white;
- padding:10px;
- border:none;
- border-radius:10px;
- cursor:pointer;
- margin-top:10px;
- width:100%;
+.btn-eliminar{
+  background:#ff0000;
+  padding:5px 10px;
+  margin-left:10px;
+  width:auto;
+  display:inline-block;
 }
+
+#carrito{
+  background:white;
+  margin:20px;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
+}
+
+#listaCarrito li{
+  margin-bottom:10px;
+}
+
+.datos-pago{
+  background:#f9f9f9;
+  padding:15px;
+  border-radius:10px;
+  margin-top:20px;
+  border:1px solid #ddd;
+}
+
+.datos-pago p{
+  margin:8px 0;
+}
+
+.whatsapp{
+  background:#25D366;
+  color:white;
+  text-align:center;
+  padding:12px;
+  border-radius:8px;
+  text-decoration:none;
+  display:block;
+  margin-top:15px;
+  font-weight:bold;
+}
+
+.sorteo{
+  background:white;
+  margin:20px;
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.sorteo iframe{
+  width:100%;
+  max-width:500px;
+  height:315px;
+  border:none;
+  border-radius:15px;
+  margin-top:15px;
+}
+
+.sorteo h2{
+  color:#ff6600;
+}
+
 </style>
-
 </head>
+
 <body>
 
 <header>
-<h1>De Todo Un Poco</h1>
-<p>Catálogo de productos</p>
+
+  <h1>Catálogo</h1>
+
+  <a
+    href="https://www.instagram.com/detodo.unpoco.arg?igsh=dThreW9jdmF6OXk0"
+    target="_blank"
+    class="instagram-btn">
+
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png"
+      alt="Instagram">
+
+    Seguinos en Instagram
+
+  </a>
+
 </header>
 
-<div class="container">
+<!-- SORTEO -->
+
+<div class="sorteo">
+
+  <h2>
+    🎉 ¡No te pierdas el sorteo!
+  </h2>
+
+  <iframe
+    src="https://drive.google.com/file/d/1ErnOs5oTG7ywtOxzKJZkWUa1zMpYiwXF/preview"
+    allow="autoplay">
+  </iframe>
+
+  <a
+    href="https://docs.google.com/forms/d/1MOa1k0pREjpqVoAQi35PeFGpd-MR3Cu5tKJEk2sCQwA/edit"
+    target="_blank"
+    class="btn btn-carrito"
+    style="max-width:300px;margin:20px auto 0 auto;">
+
+    Participar del sorteo
+
+  </a>
+
+</div>
 
 <div class="buscador">
-<input type="text" id="buscar" placeholder="Buscar producto...">
+  <input type="text" id="busqueda" placeholder="Buscar producto...">
 </div>
 
-<div class="filtros" id="filtros"></div>
+<div id="productos" class="grid"></div>
 
-<div class="grid" id="catalogo"></div>
+<div id="carrito">
+
+  <h2>🛒 Carrito</h2>
+
+  <ul id="listaCarrito"></ul>
+
+  <h3>Total: $<span id="total">0</span></h3>
+
+  <div class="datos-pago">
+
+    <h3>💳 Datos para transferir</h3>
+
+    <p>
+      <strong>Alias:</strong>
+      <span id="alias">cata.cofone.mp</span>
+    </p>
+
+    <p>
+      <strong>CBU:</strong>
+      <span id="cbu">0000003100001373265928</span>
+    </p>
+
+    <p>
+      <strong>Titular:</strong>
+      Catalina Dominguez Cofone
+    </p>
+
+    <p>
+      <strong>Cuenta:</strong>
+      Mercado Pago
+    </p>
+
+    <button onclick="copiarAlias()" class="btn">
+      Copiar Alias
+    </button>
+
+    <button onclick="copiarCBU()" class="btn btn-carrito">
+      Copiar CBU
+    </button>
+
+    <a
+      class="whatsapp"
+      href="https://wa.me/542325460892"
+      target="_blank">
+
+      Enviar comprobante por WhatsApp
+
+    </a>
+
+  </div>
 
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <script>
 
-const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSYFL6PZVNPKR0cIvM_rdBBFv9lzARFUx3auKhbnTqKe5iooMhgwmUEziLAsyBWWgoydXprwM3qRpUT/pub?output=csv";
+const URL =
+"https://opensheet.elk.sh/1YutuIhavNR7nXoREl3mJtS7IRRpvIgWWlMQnD1aRW0o/Hoja%201";
 
 let productos = [];
 
-Papa.parse(url, {
- download: true,
- header: true,
- complete: function(results) {
+let carrito = [];
 
-   productos = results.data.filter(p => p.Nombre);
+let total = 0;
 
-   mostrarProductos(productos);
-   crearFiltros();
- }
+const contenedor =
+document.getElementById("productos");
+
+const input =
+document.getElementById("busqueda");
+
+function limpiarPrecio(precio){
+
+  if(!precio) return "0";
+
+  return precio.replace(/[^0-9]/g, "");
+}
+
+function actualizarCarrito(){
+
+  const lista =
+  document.getElementById("listaCarrito");
+
+  lista.innerHTML = "";
+
+  total = 0;
+
+  carrito.forEach((producto, index) => {
+
+    total += Number(producto.precio);
+
+    const item =
+    document.createElement("li");
+
+    item.innerHTML = `
+      ${producto.nombre} - $${producto.precio}
+
+      <button
+      class="btn-eliminar"
+      onclick="eliminarDelCarrito(${index})">
+
+      Eliminar
+
+      </button>
+    `;
+
+    lista.appendChild(item);
+
+  });
+
+  document.getElementById("total").textContent =
+  total;
+}
+
+function agregarAlCarrito(nombre, precio){
+
+  carrito.push({
+    nombre:nombre,
+    precio:precio
+  });
+
+  actualizarCarrito();
+}
+
+function eliminarDelCarrito(index){
+
+  carrito.splice(index, 1);
+
+  actualizarCarrito();
+}
+
+function copiarAlias(){
+
+  const texto =
+  document.getElementById("alias").textContent;
+
+  navigator.clipboard.writeText(texto);
+
+  alert("Alias copiado");
+}
+
+function copiarCBU(){
+
+  const texto =
+  document.getElementById("cbu").textContent;
+
+  navigator.clipboard.writeText(texto);
+
+  alert("CBU copiado");
+}
+
+function mostrar(lista){
+
+  contenedor.innerHTML = "";
+
+  lista.forEach(p => {
+
+    if(!p.IMAGEN || !p.NOMBRE) return;
+
+    const precioLimpio =
+    limpiarPrecio(p.PRECIO);
+
+    const card =
+    document.createElement("div");
+
+    card.className = "card";
+
+    card.innerHTML = `
+      <img src="${p.IMAGEN}"
+      onerror="this.src='https://via.placeholder.com/200'">
+
+      <h3>${p.NOMBRE}</h3>
+
+      <p>$${precioLimpio}</p>
+
+      <p>${p.CATEGORIA || ""}</p>
+
+      <button
+      class="btn btn-carrito"
+      onclick="agregarAlCarrito('${p.NOMBRE}', '${precioLimpio}')">
+
+      Agregar al carrito
+
+      </button>
+
+      <a
+      class="btn"
+      href="${p.WHATSAPP}"
+      target="_blank">
+
+      Consultar
+
+      </a>
+    `;
+
+    contenedor.appendChild(card);
+
+  });
+}
+
+fetch(URL)
+
+.then(r => r.json())
+
+.then(data => {
+
+  console.log(data);
+
+  productos = data;
+
+  mostrar(productos);
+
 });
 
-function mostrarProductos(lista) {
- const catalogo = document.getElementById("catalogo");
- catalogo.innerHTML = "";
+input.addEventListener("input", () => {
 
- lista.forEach(p => {
-   catalogo.innerHTML += `
-   <div class="card">
-     <img src="${p.Imagen || 'https://via.placeholder.com/200'}">
-     <h3>${p.Nombre}</h3>
-     <p>${p.Precio}</p>
-     <a href="${p.WhatsApp}" target="_blank">
-       <button class="btn">Consultar</button>
-     </a>
-   </div>`;
- });
-}
+  const t =
+  input.value.toLowerCase();
 
-function crearFiltros() {
- const categorias = [...new Set(productos.map(p => p.Categoria))];
- const contenedor = document.getElementById("filtros");
+  const filtrados =
+  productos.filter(p =>
 
- contenedor.innerHTML = `<button onclick="mostrarProductos(productos)">Todos</button>`;
+    (p.NOMBRE &&
+    p.NOMBRE.toLowerCase().includes(t))
 
- categorias.forEach(cat => {
-   if(cat){
-     contenedor.innerHTML += `<button onclick="filtrar('${cat}')">${cat}</button>`;
-   }
- });
-}
+    ||
 
-function filtrar(cat) {
- const filtrados = productos.filter(p => p.Categoria === cat);
- mostrarProductos(filtrados);
-}
+    (p.CATEGORIA &&
+    p.CATEGORIA.toLowerCase().includes(t))
 
-document.getElementById("buscar").addEventListener("keyup", e => {
- const texto = e.target.value.toLowerCase();
- const filtrados = productos.filter(p => 
-   p.Nombre.toLowerCase().includes(texto)
- );
- mostrarProductos(filtrados);
+  );
+
+  mostrar(filtrados);
+
 });
 
 </script>
