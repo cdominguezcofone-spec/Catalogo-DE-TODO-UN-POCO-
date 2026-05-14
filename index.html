@@ -193,4 +193,142 @@ h1{
 
   opacity:0.9;
 
-}  
+}
+const url =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vSYFL6PZVNPKR0cIvM_rdBBFv9lzARFUx3auKhbnTqKe5iooMhgwmUEziLAsyBWWgoydXprwM3qRpUT/pub?output=csv";
+
+let productos = [];
+
+Papa.parse(url, {
+
+  download:true,
+
+  header:true,
+
+  complete:function(results){
+
+    productos =
+    results.data.filter(p => p.Nombre);
+
+    mostrarProductos(productos);
+
+    crearFiltros();
+  }
+
+});
+
+function mostrarProductos(lista){
+
+  const catalogo =
+  document.getElementById("catalogo");
+
+  catalogo.innerHTML = "";
+
+  lista.forEach(p => {
+
+    catalogo.innerHTML += `
+
+    <div class="card">
+
+      <img
+      src="${p.Imagen || 'https://via.placeholder.com/200'}"
+      alt="${p.Nombre}">
+
+      <h3>${p.Nombre}</h3>
+
+      <p>${p.Precio}</p>
+
+      <a
+      href="${p.WhatsApp}"
+      target="_blank">
+
+        <button class="btn">
+
+          Consultar
+
+        </button>
+
+      </a>
+
+    </div>
+
+    `;
+  });
+}
+
+function crearFiltros(){
+
+  const categorias =
+
+  [...new Set(
+    productos.map(p => p.Categoria)
+  )];
+
+  const contenedor =
+  document.getElementById("filtros");
+
+  contenedor.innerHTML = `
+
+  <button
+  onclick="mostrarProductos(productos)">
+
+    Todos
+
+  </button>
+
+  `;
+
+  categorias.forEach(cat => {
+
+    if(cat){
+
+      contenedor.innerHTML += `
+
+      <button
+      onclick="filtrar('${cat}')">
+
+        ${cat}
+
+      </button>
+
+      `;
+    }
+
+  });
+
+}
+
+function filtrar(cat){
+
+  const filtrados =
+
+  productos.filter(
+    p => p.Categoria === cat
+  );
+
+  mostrarProductos(filtrados);
+
+}
+
+document
+
+.getElementById("buscar")
+
+.addEventListener("keyup", e => {
+
+  const texto =
+  e.target.value.toLowerCase();
+
+  const filtrados =
+
+  productos.filter(p =>
+
+    p.Nombre
+    .toLowerCase()
+    .includes(texto)
+
+  );
+
+  mostrarProductos(filtrados);
+
+});  
