@@ -1,3 +1,7 @@
+<!-- ========================= -->
+<!-- index.html -->
+<!-- ========================= -->
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -20,7 +24,7 @@
 
   <h1>De Todo Un Poco</h1>
 
-  <p>Catálogo de productos</p>
+  <p>Catálogo minimalista</p>
 
 </header>
 
@@ -51,32 +55,49 @@
 
 </body>
 </html>
+/* ========================= */
+/* style.css */
+/* ========================= */
+
 body{
 
   font-family:'Poppins', sans-serif;
   margin:0;
-  background:#f5f5f5;
+  background:#f4f4f4;
+  color:#222;
 
 }
 
 header{
 
-  background:#ff7a00;
-  color:white;
+  background:white;
+  color:#111;
   text-align:center;
-  padding:30px;
+  padding:40px 20px;
+  border-bottom:1px solid #e5e5e5;
 
 }
 
 h1{
 
   margin:0;
+  font-size:38px;
+  font-weight:600;
+  letter-spacing:1px;
+
+}
+
+header p{
+
+  color:#777;
+  margin-top:10px;
+  font-size:15px;
 
 }
 
 .container{
 
-  padding:20px;
+  padding:30px;
   max-width:1200px;
   margin:auto;
 
@@ -85,43 +106,55 @@ h1{
 .buscador{
 
   text-align:center;
-  margin-bottom:20px;
+  margin-bottom:30px;
 
 }
 
 .buscador input{
 
-  padding:10px;
+  padding:14px;
   width:80%;
-  max-width:400px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:16px;
+  max-width:420px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  background:white;
+  font-size:15px;
+  outline:none;
+  transition:0.3s;
+
+}
+
+.buscador input:focus{
+
+  border-color:#999;
 
 }
 
 .filtros{
 
   text-align:center;
-  margin-bottom:20px;
+  margin-bottom:30px;
 
 }
 
 .filtros button{
 
-  margin:5px;
-  padding:8px 15px;
+  margin:6px;
+  padding:10px 18px;
   border:none;
-  border-radius:20px;
+  border-radius:30px;
   cursor:pointer;
-  background:#ddd;
+  background:white;
+  color:#333;
+  border:1px solid #ddd;
   transition:0.3s;
+  font-size:14px;
 
 }
 
 .filtros button:hover{
 
-  background:#ff7a00;
+  background:#111;
   color:white;
 
 }
@@ -130,67 +163,215 @@ h1{
 
   display:grid;
   grid-template-columns:
-  repeat(auto-fit, minmax(220px,1fr));
+  repeat(auto-fit, minmax(240px,1fr));
 
-  gap:20px;
+  gap:25px;
 
 }
 
 .card{
 
   background:white;
-  padding:15px;
-  border-radius:15px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.1);
+  padding:18px;
+  border-radius:18px;
   text-align:center;
   transition:0.3s;
+  border:1px solid #ececec;
 
 }
 
 .card:hover{
 
-  transform:scale(1.05);
+  transform:translateY(-5px);
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,0.08);
 
 }
 
 .card img{
 
   width:100%;
-  height:200px;
+  height:230px;
   object-fit:cover;
-  border-radius:10px;
+  border-radius:14px;
 
 }
 
 .card h3{
 
-  margin-top:10px;
+  margin-top:15px;
+  font-size:18px;
+  font-weight:500;
 
 }
 
 .card p{
 
-  color:#444;
+  color:#666;
+  font-size:15px;
 
 }
 
 .btn{
 
-  background:#25D366;
+  background:#111;
   color:white;
-  padding:10px;
+  padding:12px;
   border:none;
-  border-radius:10px;
+  border-radius:12px;
   cursor:pointer;
-  margin-top:10px;
+  margin-top:12px;
   width:100%;
-  font-size:15px;
+  font-size:14px;
   transition:0.3s;
 
 }
 
 .btn:hover{
 
-  opacity:0.9;
+  background:#333;
 
 }
+/* ========================= */
+/* script.js */
+/* ========================= */
+
+const url =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vSYFL6PZVNPKR0cIvM_rdBBFv9lzARFUx3auKhbnTqKe5iooMhgwmUEziLAsyBWWgoydXprwM3qRpUT/pub?output=csv";
+
+let productos = [];
+
+Papa.parse(url, {
+
+  download:true,
+
+  header:true,
+
+  complete:function(results){
+
+    productos =
+    results.data.filter(p => p.Nombre);
+
+    mostrarProductos(productos);
+
+    crearFiltros();
+  }
+
+});
+
+function mostrarProductos(lista){
+
+  const catalogo =
+  document.getElementById("catalogo");
+
+  catalogo.innerHTML = "";
+
+  lista.forEach(p => {
+
+    catalogo.innerHTML += `
+
+    <div class="card">
+
+      <img
+      src="${p.Imagen || 'https://via.placeholder.com/200'}"
+      alt="${p.Nombre}">
+
+      <h3>${p.Nombre}</h3>
+
+      <p>${p.Precio}</p>
+
+      <a
+      href="${p.WhatsApp}"
+      target="_blank">
+
+        <button class="btn">
+
+          Consultar
+
+        </button>
+
+      </a>
+
+    </div>
+
+    `;
+  });
+}
+
+function crearFiltros(){
+
+  const categorias =
+
+  [...new Set(
+    productos.map(p => p.Categoria)
+  )];
+
+  const contenedor =
+  document.getElementById("filtros");
+
+  contenedor.innerHTML = `
+
+  <button
+  onclick="mostrarProductos(productos)">
+
+    Todos
+
+  </button>
+
+  `;
+
+  categorias.forEach(cat => {
+
+    if(cat){
+
+      contenedor.innerHTML += `
+
+      <button
+      onclick="filtrar('${cat}')">
+
+        ${cat}
+
+      </button>
+
+      `;
+    }
+
+  });
+
+}
+
+function filtrar(cat){
+
+  const filtrados =
+
+  productos.filter(
+    p => p.Categoria === cat
+  );
+
+  mostrarProductos(filtrados);
+
+}
+
+document
+
+.getElementById("buscar")
+
+.addEventListener("keyup", e => {
+
+  const texto =
+  e.target.value.toLowerCase();
+
+  const filtrados =
+
+  productos.filter(p =>
+
+    p.Nombre
+    .toLowerCase()
+    .includes(texto)
+
+  );
+
+  mostrarProductos(filtrados);
+
+});
