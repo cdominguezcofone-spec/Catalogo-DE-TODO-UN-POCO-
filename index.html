@@ -83,6 +83,7 @@ header{
   border:none;
   cursor:pointer;
   width:100%;
+  box-sizing:border-box;
 }
 
 .btn:hover{
@@ -137,6 +138,28 @@ header{
   font-weight:bold;
 }
 
+.sorteo{
+  background:white;
+  margin:20px;
+  padding:20px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+
+.sorteo iframe{
+  width:100%;
+  max-width:500px;
+  height:315px;
+  border:none;
+  border-radius:15px;
+  margin-top:15px;
+}
+
+.sorteo h2{
+  color:#ff6600;
+}
+
 </style>
 </head>
 
@@ -160,6 +183,31 @@ header{
   </a>
 
 </header>
+
+<!-- SORTEO -->
+
+<div class="sorteo">
+
+  <h2>
+    🎉 ¡No te pierdas el sorteo!
+  </h2>
+
+  <iframe
+    src="https://drive.google.com/file/d/1ErnOs5oTG7ywtOxzKJZkWUa1zMpYiwXF/preview"
+    allow="autoplay">
+  </iframe>
+
+  <a
+    href="https://docs.google.com/forms/d/1MOa1k0pREjpqVoAQi35PeFGpd-MR3Cu5tKJEk2sCQwA/edit"
+    target="_blank"
+    class="btn btn-carrito"
+    style="max-width:300px;margin:20px auto 0 auto;">
+
+    Participar del sorteo
+
+  </a>
+
+</div>
 
 <div class="buscador">
   <input type="text" id="busqueda" placeholder="Buscar producto...">
